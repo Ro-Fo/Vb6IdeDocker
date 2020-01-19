@@ -19,7 +19,7 @@ Please read the [windows docker documentation](https://docs.docker.com/docker-fo
 - [Visual Basic 6 SP6](https://www.microsoft.com/de-de/download/details.aspx?id=5721) (is needed for bigger size projects)
 - your Legacy third-party components (ActiveX, *.oca, *.ocx, *.dll, ...)
 
-Keep in mind when you are installing third-party components in docker, install it  ```silent```.
+Keep in mind if you install third-party components in docker, install it  ```silent```.
 
 For obvious legal reasons, I'm not providing any prebuilt images of this on docker hub nor anywhere else.
 
@@ -122,17 +122,39 @@ If their are files like '*.lic' besides the third party components, then just co
 2. license key in windows registry:
 Try to find the license in the registry. Try to search for the company name or for for the license. If u having problems, you can try the windows tool 'Procmon.exe' (see FAQ).
 
+### compiling
+
+Use the following command to compile your VB6-project.
+
+```
+    ..\Microsoft Visual Studio\VB98\VB6.EXE /MAKE /OUT .\vbpFile.log .\project.vbp /outdir .\someoutputdir
+```
+
+##### trouble shooting
+
+to analyse compile erros:
+
+* always try to reproduce the error in small projects
+* use `procmon` on third party problems
+
+##### language pack for Windows 
+
+The default Windows Container language pack is English. You can get compile errors if you use symbols in the method or variable signature. The Default File encoding of the vb6 classes should be ANSI.
+
+For example: In Germany dont use "ü, ö, ä, ß, ..."
+
+
 # FAQ
 
 ## Why you really want to do this? 
 
-We have a huge VB6 Legacy Code-Base and use the [COM Interop](https://en.wikipedia.org/wiki/COM_Interop) technology to use the .NET Framework.
+We have a huge VB6 Legacy Code-Base (1mil LOC) and use the [COM Interop](https://en.wikipedia.org/wiki/COM_Interop) technology to use the .NET Framework.
 
 Of couse the biggest advantage is that the Integration of Build Servers are much easier with Docker.
 
 Also we had repeating problems with our CI-VM Windows-Registry, since references between compiled VB6 DLLs requires to be registered. After many many builds the Windows-Registry dies.
 
-## procmon - Process Monitor
+## Process Monitor - procmon
 
 [Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity.
 
@@ -157,7 +179,7 @@ for git:
 
 ### Windows Server Core
 
-In Windows Server Core image their can be problems with MSI-Installer-Packages. Just copy the ```oledlg.dll``` DLL to the Windows System Directory if its missing.
+The Windows Server Core image has problems with MSI-Installer-Packages. Copy the ```oledlg.dll``` DLL to the Windows System Directory if its missing.
 
 ``` dockerfile
     COPY /oledlg.dll "C:/Windows/System32"
