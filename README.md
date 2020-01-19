@@ -10,6 +10,7 @@ Please read the [windows docker documentation](https://docs.docker.com/docker-fo
 - Step 2: pre-existing image
 - Step 3: Install VB6 IDE and Visual Basic 6 SP6
 - Step 4: Register third-party components
+- Step 5: Compile
 - FAQ
 
 ## Step 1: requirements
@@ -122,7 +123,7 @@ If their are files like '*.lic' besides the third party components, then just co
 2. license key in windows registry:
 Try to find the license in the registry. Try to search for the company name or for for the license. If u having problems, you can try the windows tool 'Procmon.exe' (see FAQ).
 
-### compiling
+## Step 5: Compile
 
 Use the following command to compile your VB6-project.
 
